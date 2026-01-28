@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>SMART on FHIR Launching...</title>
+    <script src="https://cdn.jsdelivr.net/npm/fhirclient/build/fhir-client.js"></script>
+</head>
+<body>
+    <div style="font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <div style="border: 4px solid #f3f3f3; border-top: 4px solid #4f46e5; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top: 20px; color: #666;">正在連接 FHIR 醫療資料庫並進行安全性驗證...</p>
+    </div>
+
+    <script>
+        // SMART on FHIR 啟動邏輯
+        FHIR.oauth2.authorize({
+            // 比賽時，這裡會填入你在開發者平台註冊的 Client ID
+            "clientId": "smart-claim-pro-app", 
+            
+            // 要求的權限 (Scope): 讀取病患資料、診斷、檢驗、藥物
+            "scope": "patient/*.read user/Patient.read openid fhirUser profile",
+            
+            // 授權成功後的導向頁面 (就是你的主程式)
+            "redirectUri": "index.html",
+            
+            // 對應的 FHIR Server 類型 (自動偵測)
+            "iss": new URLSearchParams(window.location.search).get("iss")
+        });
+    </script>
+
+    <style>
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
